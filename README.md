@@ -146,13 +146,13 @@ A **secure, responsive, and dependency-free** blog application built with **vani
 
 ---
 
-## 📜 License
+##  License
 
 MIT License — see [LICENSE](LICENSE)
 
 ---
 
-## 🙏 Acknowledgements
+##  Acknowledgements
 
 - [SimpleMDE](https://github.com/sparksuite/simplemde-markdown-editor)
 - [Marked.js](https://github.com/markedjs/marked)
