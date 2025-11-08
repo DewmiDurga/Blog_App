@@ -1,5 +1,5 @@
 
-# 📄 **MyBlog – A Minimalist Markdown Blog Engine**
+# 📄 **BLOG**
 
 A **secure, responsive, and dependency-free** blog application built with **vanilla technologies**. Supports Markdown editing, featured images, and user authentication — all without frameworks.
 
@@ -68,7 +68,7 @@ A **secure, responsive, and dependency-free** blog application built with **vani
 ### Setup
 1. **Clone** this repo into `htdocs/`:
    ```bash
-   git clone https://github.com/Sakvith12/Blog-App
+   git clone https://github.com/DewmiDurga
    cd myblog
    ```
 
