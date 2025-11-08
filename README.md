@@ -9,7 +9,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-5.7%2B-4479A1?logo=mysql)](https://www.mysql.com)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-> *“Words deserve dignity. Let them be written — and read — like royal decrees.”*
+ *“Words deserve dignity. Let them be written — and read — like royal decrees.”*
 
 ---
 
@@ -135,7 +135,7 @@ Frontend ↔ **REST-like PHP API** — no embedded PHP in `.html` files.
 
 4. **Go live**: `https://dewmi.infinityfree.me`
 
-> 🔐 **Security Tip**: Never commit `db.php` with real passwords. Use `.gitignore`.
+ 🔐 **Security Tip**: Never commit `db.php` with real passwords. Use `.gitignore`.
 
 ---
 
@@ -149,7 +149,7 @@ Frontend ↔ **REST-like PHP API** — no embedded PHP in `.html` files.
 | **Session Hijacking** | `HttpOnly` cookies (via PHP session config) |
 | **File Uploads** | Type/size validation, unique filenames, `uploads/` outside web root* |
 
-> \* *On InfinityFree, `uploads/` is in web root — but filenames are unpredictable.*
+ * *On InfinityFree, `uploads/` is in web root — but filenames are unpredictable.*
 
 ---
 
@@ -188,7 +188,7 @@ Frontend ↔ **REST-like PHP API** — no embedded PHP in `.html` files.
 
 MIT — free to use, modify, and distribute.
 
-> *"Knowledge should be free, elegant, and timeless."*
+ *"Knowledge should be free, elegant, and timeless."*
 
 ---
 
@@ -201,8 +201,8 @@ MIT — free to use, modify, and distribute.
 
 ---
 
-> ✒️ **Crafted with care for writers who believe words deserve dignity.**  
-> — *Your Name, Steward of the Royal Manuscript*
+✒️ **Crafted with care for writers who believe words deserve dignity.**  
+ — *Your Name, Steward of the Royal Manuscript*
 
 ---
 
@@ -211,7 +211,7 @@ Just `git clone`, set up your database, and begin your reign.
 
 ---
 
-> 📬 **Feedback?** Open an issue — all royal decrees welcome. 👑
+📬 **Feedback?** Open an issue — all royal decrees welcome. 👑
 ```
 
 ---
