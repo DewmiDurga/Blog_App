@@ -107,7 +107,7 @@ A **secure, responsive, and dependency-free** blog application built with **vani
 ##  Deployment (InfinityFree)
 
 1. **Prepare Files**:
-   - Remove `/blog-app2/` from all API paths (e.g., `/blog-app2/backend/...` → `/backend/...`)
+   - Remove `/blog-app3/` from all API paths (e.g., `/blog-app2/backend/...` → `/backend/...`)
    - Update `backend/config/db.php` with InfinityFree credentials
 
 2. **Upload**:
