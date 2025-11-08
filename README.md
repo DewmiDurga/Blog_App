@@ -1,264 +1,165 @@
-## 📝 Copy-and-Paste `README.md`
 
-Here is the correctly formatted and complete `README.md` file. Simply copy the text below and paste it into your repository's `README.md` file.
+# 📄 **MyBlog – A Minimalist Markdown Blog Engine**
 
-```markdown
-# 📜 Royal Manuscript
-*A regal, black-and-white blog application with elegant typography, real-time search, categories, and Markdown-powered content.*
+A **secure, responsive, and dependency-free** blog application built with **vanilla technologies**. Supports Markdown editing, featured images, and user authentication — all without frameworks.
 
-![Royal Manuscript Banner](https://via.placeholder.com/820x300/0a0a0a/f0f0f0?text=Royal+Manuscript+-+A+Regal+Blog+Platform)
-*(Replace with actual banner/screenshot when deployed)*
+[![Live Demo](https://img.shields.io/badge/demo-live-2ea44f?style=flat-square)]([https://itmuom.page.gd](https://dewmi.infinityfree.me/login.html))  
+[![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?logo=php&logoColor=white)](https://www.php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-5.7+-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com)
 
 ---
 
-## 🌟 Overview
+##  Features
 
-**Royal Manuscript** is a sophisticated, self-hosted blog platform designed to mimic the aesthetic of 18th-century royal decrees and handwritten manuscripts — all in a refined black-and-white palette.
-
-Built with modern web standards but inspired by classical typography (Cormorant Garamond, Cinzel), this app delivers a **luxurious reading and writing experience**, whether you're publishing poetry, essays, journals, or scholarly reflections.
-
-✅ Fully responsive
-✅ Dark & light mode
-✅ Image uploads + Markdown
-✅ Real-time search & category filtering
-✅ Secure auth (email/password)
-✅ Zero external dependencies (except Font Awesome & Google Fonts)
+-  **Markdown Editor**: Write with SimpleMDE (bold, code, lists, tables)
+-  **Featured Images**: Upload JPG/PNG/WebP for posts
+-  **Secure Auth**: `password_hash()`, prepared statements, XSS sanitization
+-  **Fully Responsive**: Mobile-first design
+-  **Zero Frameworks**: Pure HTML/CSS/JS + PHP/MySQL
+-  **Hosting Ready**: Works on XAMPP → InfinityFree
 
 ---
 
-## 🚀 Features
+##  Tech Stack
 
-| Category | Feature |
-|---------|---------|
-| 🎨 **UI/UX** | - Black-and-white "royal manuscript" theme<br>- Elegant serif typography (Cinzel, Cormorant Garamond)<br>- Smooth animations & hover effects<br>- Mobile-first responsive design |
-| 🔐 **Authentication** | - Secure login/register<br>- Session-based auth (PHP `$_SESSION`)<br>- Password hashing (`password_hash`) |
-| ✍️ **Content** | - Rich Markdown editor (SimpleMDE)<br>- Image uploads (JPG/PNG/WebP)<br>- Post creation, editing, deletion |
-| 🔍 **Discovery** | - Real-time search (as you type)<br>- Category filtering (with API-backed filtering)<br>- 25%/75% image/content layout |
-| 📱 **Mobile** | - Fully responsive: image scaling (`object-fit: contain`)<br>- No overflow, full-image visibility on small screens<br>- Touch-friendly controls |
-| 🛡️ **Security** | - Prepared statements (PDO) to prevent SQL injection<br>- Input validation & sanitization<br>- CSRF-safe (session-bound actions) |
-| 🖥️ **Hosting** | - Works on XAMPP, WAMP, InfinityFree, and standard LAMP stacks<br>- No frameworks — pure PHP/JS/HTML/CSS |
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
+| **Markdown** | [SimpleMDE](https://simplemde.com) (editor), [Marked.js](https://marked.js.org) (rendering) |
+| **Backend** | PHP 8.0 (procedural, no frameworks) |
+| **Database** | MySQL 5.7 |
+| **Styling** | CSS Variables, Flexbox, Grid |
+| **Hosting** | XAMPP (local), InfinityFree (production) |
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
-
-blog-app/
+/
 ├── backend/
-│   ├── api/
-│   │   ├── auth/         \# login, register, check, logout
-│   │   ├── posts/        \# CRUD: create, list, edit, delete, get
-│   │   └── categories/   \# list
-│   ├── config/
-│   │   └── db.php       \# DB connection (MySQL)
-│   └── includes/
-│       └── auth.php      \# auth helpers (requireLogin, isOwner)
-├── frontend/
-│   ├── css/
-│   │   └── style.css     \# Royal black-and-white theme ✨
-│   ├── js/
-│   │   ├── main.js       \# Core utilities (escapeHtml, checkAuth, logout)
-│   │   └── theme.js      \# Dark/light mode toggle
-│   ├── lib/
-│   │   ├── marked.min.js \# Markdown parser
-│   │   ├── simplemde.min.js
-│   │   └── simplemde.min.css
-│   └── pages/
-│       ├── index.html    \# Homepage (search + category + posts)
-│       ├── login.html
-│       ├── register.html
-│       ├── create.html
-│       ├── edit.html
-│       ├── view.html     \# Single post (responsive images)
-│       └── profile.html
-├── uploads/              \# User-uploaded images (auto-created)
-└── sql/
-    └── blog\_schema.sql   \# Database schema (users, posts, categories)
+│   ├── config/db.php          # DB connection + session init
+│   ├── includes/auth.php      # Auth helpers
+│   └── api/                   # REST-like endpoints
+│       ├── auth/              # login, register, logout
+│       └── posts/             # CRUD operations
+├── css/
+│   └── style.css              # Unified light/dark theme
+├── js/
+│   ├── main.js                # Core utilities
+│   └── theme.js              
+├── lib/
+│   ├── simplemde.min.js       # Markdown editor
+│   └── marked.min.js          # Markdown → HTML parser
+├── uploads/                   # User-uploaded images (auto-created)
+└── *.html                     # All pages (flat structure)
+```
 
-````
+>  **Design Principle**: Frontend (HTML/JS) ↔ Backend (PHP API) — no PHP in HTML.
 
 ---
 
-## ⚙️ Installation
+##  Local Development (XAMPP)
 
 ### Prerequisites
-- PHP 7.4+ (with `pdo_mysql`, `session`)
-- MySQL/MariaDB
-- Web server (Apache/Nginx)
+- [XAMPP](https://www.apachefriends.org) (Apache + MySQL)
+- Browser with JavaScript enabled
 
-### 1. Clone & Setup
-```bash
-git clone [https://github.com/your-username/royal-manuscript.git](https://github.com/your-username/royal-manuscript.git)
-cd royal-manuscript
-````
+### Setup
+1. **Clone** this repo into `htdocs/`:
+   ```bash
+   git clone https://github.com/Sakvith12/Blog-App
+   cd myblog
+   ```
 
-### 2\. Create Database
+2. **Create Database** (`blog_db`) in phpMyAdmin:
+   ```sql
+   CREATE DATABASE blog_db;
+   USE blog_db;
+   
+   -- Users
+   CREATE TABLE user (
+       id INT AUTO_INCREMENT PRIMARY KEY,
+       username VARCHAR(50) NOT NULL UNIQUE,
+       email VARCHAR(100) NOT NULL UNIQUE,
+       password VARCHAR(255) NOT NULL
+   );
+   
+   -- Posts
+   CREATE TABLE blogPost (
+       id INT AUTO_INCREMENT PRIMARY KEY,
+       user_id INT NOT NULL,
+       title VARCHAR(255) NOT NULL,
+       content TEXT NOT NULL,
+       image VARCHAR(255) NULL,
+       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+       FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+   );
+   ```
 
-Run this SQL (or import `sql/blog_schema.sql`):
+3. **Start Apache & MySQL** in XAMPP Control Panel
 
-```sql
-CREATE DATABASE blog_db;
-USE blog_db;
+4. **Visit**: `http://localhost/blog-app2/frontend/index.html`
 
--- Users
-CREATE TABLE user (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(50) NOT NULL UNIQUE,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL
-);
+---
 
--- Categories
-CREATE TABLE category (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL UNIQUE
-);
+##  Deployment (InfinityFree)
 
--- Posts
-CREATE TABLE blogPost (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  title VARCHAR(255) NOT NULL,
-  content TEXT NOT NULL,
-  image VARCHAR(255) NULL,
-  category_id INT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
-  FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE SET NULL
-);
+1. **Prepare Files**:
+   - Remove `/blog-app2/` from all API paths (e.g., `/blog-app2/backend/...` → `/backend/...`)
+   - Update `backend/config/db.php` with InfinityFree credentials
 
--- Sample categories (optional)
-INSERT INTO category (name) VALUES
-  ('Literature'), ('Philosophy'), ('History'),
-  ('Science'), ('Travel'), ('Personal');
-```
+2. **Upload**:
+   - Use **File Manager** or **FTP** to upload to `htdocs/`
+   - ⚠️ **Do NOT upload `uploads/`** — let PHP create it
 
-### 3\. Configure Database
+3. **Import Database** via phpMyAdmin
 
-Edit `backend/config/db.php`:
+4. **Verify**: `https://yourname.epizy.com`
 
-```php
-$host = 'localhost';
-$dbname = 'blog_db';
-$db_user = 'your_db_user';
-$db_pass = 'your_db_password'; // ← never leave empty on shared hosts!
-```
+> 🔑 **cPanel**: `https://yourname.infinityfreeapp.com/cpanel`
 
-### 4\. Set Permissions
+---
 
-Ensure `uploads/` is writable:
+##  Security
 
-```bash
-chmod -R 755 uploads/
-# On shared hosting (e.g., InfinityFree), this is usually automatic
-```
+| Feature | Implementation |
+|--------|----------------|
+| **Passwords** | `password_hash()` + `password_verify()` |
+| **SQL Injection** | PDO prepared statements |
+| **XSS** | HTML sanitization (allowed tags only) |
+| **CSRF** | Cookie-based sessions |
+| **File Uploads** | Type/size validation, unique filenames |
 
-### 5\. Deploy
+---
 
-  - Copy entire project to web root (e.g., `htdocs/blog-app/`)
-  - Visit: `http://localhost/blog-app/frontend/pages/login.html`
+##  Testing
 
-> 💡 **For InfinityFree**:
->
->   - Use the provided DB credentials from the control panel
->   - Ensure `db_pass` is **not empty**
->   - Test `/backend/api/auth/check.php` first to confirm DB connection
+| Action | Expected Result |
+|-------|-----------------|
+| Register → Login | Redirect to homepage + "Welcome, ..." |
+| Create post (with image) | Post appears on homepage + in DB |
+| Edit/Delete own post | Works |
+| Edit/Delete others' post | ❌ Forbidden (403) |
+| Logout → Back button | Redirects to login (no cached auth) |
 
------
-
-## 🧪 Demo
-
-| Page | Screenshot |
-|------|------------|
-| **Homepage** |  |
-| **Create Post** |  |
-| **Mobile View** |  |
-
-*(Add real screenshots to `/docs/` and update links)*
-
------
-
-## 🔐 Security Notes
-
-  - ✅ All DB queries use **prepared statements**
-  - ✅ User passwords are hashed with `password_hash` (bcrypt)
-  - ✅ Session-based auth (no JWT tokens → simpler & secure for this scale)
-  - ✅ Image uploads validated (type, size, extension)
-  - ✅ HTML output escaped (`escapeHtml()` utility)
-  - ❌ No rate limiting (for production, add login attempt limits)
-
------
-
-## 🎨 Customization
-
-### Change Theme Colors
-
-Edit CSS variables in `style.css`:
-
-```css
-:root {
-  --primary: #1a1a1a;   /* Deep graphite */
-  --accent: #c0c0c0;    /* Silver */
-  --bg: #fdfdfd;        /* Parchment */
-}
-```
-
-### Add New Fonts
-
-Replace Google Fonts import in HTML:
-
-```html
-<link href="[https://fonts.googleapis.com/css2?family=Cinzel&family=Cormorant+Garamond&display=swap](https://fonts.googleapis.com/css2?family=Cinzel&family=Cormorant+Garamond&display=swap)" rel="stylesheet">
-```
-
-### Enable Dark Mode by Default
-
-In `theme.js`:
-
-```js
-// Change this line:
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-// To:
-const prefersDark = true; // Always dark
-```
-
------
+---
 
 ## 📜 License
 
-MIT License — free to use, modify, and distribute.
-
-> *"Knowledge should be free, elegant, and timeless."*
-
------
-
-## 🙏 Acknowledgements
-
-  - [**SimpleMDE**](https://github.com/sparksuite/simplemde-markdown-editor) — elegant Markdown editor
-  - [**marked.js**](https://github.com/markedjs/marked) — fast Markdown parser
-  - Google Fonts — *Cinzel*, *Cormorant Garamond*, *Libre Baskerville*
-  - Font Awesome — icons
-
------
-
-## 📬 Feedback & Contributions
-
-Issues, PRs, and royal decrees welcome\!
-→ [Open an Issue](https://github.com/your-username/royal-manuscript/issues)
-→ Fork & contribute 🏰
-
------
-
-> ✒️ *Crafted with care for writers who believe words deserve dignity.*
-> — *Your Name, Steward of the Royal Manuscript*
-
-```
+MIT License — see [LICENSE](LICENSE)
 
 ---
 
-I've ensured the markdown is all correct for copy-pasting.
+## 🙏 Acknowledgements
 
-Would you like me to generate a matching **banner image** (royal parchment style) or a **`CONTRIBUTING.md`** file for your repository?
-```
+- [SimpleMDE](https://github.com/sparksuite/simplemde-markdown-editor)
+- [Marked.js](https://github.com/markedjs/marked)
+- [Font Awesome](https://fontawesome.com) (for icons)
+
+---
+
+> ✨ **This project proves you don’t need frameworks to build secure, modern web apps.**  
+
+
