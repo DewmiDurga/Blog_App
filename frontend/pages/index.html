@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOG</title>
+    <script src="../lib/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1><a href="index.html">BLOG</a></h1>
+            <div class="navbar-actions">
+                <div id="authNav"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>All Blogs</h2>
+
+        <!-- search -->
+        <div style="margin-bottom: 24px;">
+            <input type="text" id="searchInput" placeholder="Search posts…" aria-label="Search posts">
+        </div>
+
+        <!-- category Filter -->
+        <div class="category-filter">
+            <h3>Categories</h3>
+            <ul id="category-list"></ul>
+        </div>
+
+        <!-- posts -->
+        <div id="posts"></div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        let currentCategoryId = null;
+        let currentSearchQuery = '';
+        let searchTimeout = null;
+
+        // debounced search
+        function scheduleSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                currentSearchQuery = document.getElementById('searchInput').value.trim();
+                loadPosts(currentSearchQuery, currentCategoryId);
+            }, 300);
+        }
+
+        // load categories
+        async function loadCategories() {
+            const res = await fetch('/blog-app3/backend/api/categories/list.php');
+            const categories = await res.json();
+            const list = document.getElementById('category-list');
+
+            list.innerHTML = `<li><a href="#" data-category="" class="category-link active">All Posts</a></li>`;
+            categories.forEach(cat => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#" data-category="${cat.id}" class="category-link">${escapeHtml(cat.name)}</a>`;
+                list.appendChild(li);
+            });
+
+            // Click handlers
+            list.querySelectorAll('.category-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const catId = e.target.dataset.category || null;
+                    currentCategoryId = catId;
+
+                    // update active state
+                    list.querySelectorAll('.category-link').forEach(a => a.classList.remove('active'));
+                    e.target.classList.add('active');
+
+                    scheduleSearch();
+                });
+            });
+        }
+
+        // markdown to plain text
+        function markdownToPlainText(markdown, maxLength = 200) {
+            if (!markdown) return '';
+            let html = marked.parse(markdown);
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            let text = temp.textContent || temp.innerText || '';
+            text = text.replace(/\s+/g, ' ').trim();
+            return text.length > maxLength ? text.substring(0, maxLength) + '…' : text;
+        }
+
+        // load posts
+        async function loadPosts(searchQuery = '', categoryId = null) {
+            let url = '/blog-app3/backend/api/posts/list.php';
+            const params = new URLSearchParams();
+            if (searchQuery) params.append('q', searchQuery);
+            if (categoryId !== null) params.append('category_id', categoryId);
+            if (params.toString()) url += '?' + params.toString();
+
+            const res = await fetch(url);
+            const posts = await res.json();
+            const container = document.getElementById('posts');
+
+            if (posts.length === 0) {
+                container.innerHTML = '<p class="no-posts">No posts found.</p>';
+                return;
+            }
+
+            container.innerHTML = posts.map(post => {
+                const preview = markdownToPlainText(post.content, 200);
+                const hasImage = post.image;
+                return `
+                    <div class="post-preview">
+                        <div class="post-grid">
+                            <div class="post-image-col${hasImage ? '' : ' placeholder'}">
+                                ${hasImage 
+                                    ? `<img src="/blog-app3/uploads/${post.image}" alt="${escapeHtml(post.title)}" class="post-list-image">`
+                                    : `<i class="fas fa-file-alt"></i>`
+                                }
+                            </div>
+                            <div class="post-content-col">
+                                <h3><a href="view.html?id=${post.id}">${escapeHtml(post.title)}</a></h3>
+                                <p class="meta">
+                                    By ${escapeHtml(post.username)}
+                                    ${post.category_name ? `<span class="category-badge">${escapeHtml(post.category_name)}</span>` : ''}
+                                    • ${post.created_at}
+                                </p>
+                                <p class="post-preview-text">${escapeHtml(preview)}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        //
+        //
+        checkAuth().then(user => {
+            if (user) {
+                // elegant user greeting
+                document.getElementById('authNav').innerHTML = `
+                    <div class="user-greeting">
+                        <span class="user-initial">${user.username.charAt(0).toUpperCase()}</span>
+                        <a href="create.html" class="nav-link">New Post</a>
+                        <a href="#" id="logoutLink" class="nav-link">Logout</a>
+                    </div>
+                `;
+                document.getElementById('logoutLink').onclick = logout;
+
+                loadCategories();
+                loadPosts();
+
+                
+                document.getElementById('searchInput').addEventListener('input', scheduleSearch);
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</body>
+</html>

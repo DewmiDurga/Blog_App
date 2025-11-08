@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Post</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../lib/simplemde.min.css" />
+  <script src="../lib/simplemde.min.js"></script>
+</head>
+<body>
+  <!-- navbar-->
+  <nav class="navbar">
+    <div class="container">
+      <h1><a href="index.html">BLOG</a></h1>
+      <div class="navbar-actions">
+        <div id="authNav"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Edit Post</h2>
+    <form id="postForm">
+      <input type="hidden" id="postId" />
+      
+      <label for="title">Title</label>
+      <input type="text" id="title" placeholder="Post Title" required />
+
+      <label for="category">Category (optional)</label>
+      <select id="category">
+        <option value="">None</option>
+        
+      </select>
+
+      <label for="content-editor">Content</label>
+      <textarea id="content-editor" placeholder="Write your post in Markdown..."></textarea>
+
+      <label for="postImage">Change Image (optional)</label>
+      <input type="file" id="postImage" accept="image/*" />
+
+      <button type="submit">Update Post</button>
+    </form>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const simplemde = new SimpleMDE({ element: document.getElementById("content-editor") });
+
+    // load categories
+    async function loadCategories() {
+      const res = await fetch('/blog-app3/backend/api/categories/list.php');
+      const categories = await res.json();
+      const select = document.getElementById('category');
+      if (select) {
+        categories.forEach(cat => {
+          const opt = document.createElement('option');
+          opt.value = cat.id;
+          opt.textContent = cat.name;
+          select.appendChild(opt);
+        });
+      }
+    }
+
+    // Load post
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+    if (!postId) {
+      alert('Invalid post ID');
+      window.location.href = 'index.html';
+    } else {
+      document.getElementById('postId').value = postId;
+      loadPost(postId);
+    }
+
+    async function loadPost(id) {
+      const res = await fetch(`/blog-app3/backend/api/posts/get.php?id=${id}`);
+      const post = await res.json();
+      if (post.error) {
+        alert(post.error);
+        window.location.href = 'index.html';
+        return;
+      }
+
+      document.getElementById('title').value = post.title || '';
+      simplemde.value(post.content || '');
+      if (post.category_id) {
+        document.getElementById('category').value = post.category_id;
+      }
+    }
+
+    //  Auth +  navbar 
+    checkAuth().then(user => {
+      if (user) {
+       
+        document.getElementById('authNav').innerHTML = `
+          <div class="user-greeting">
+            <span class="user-initial">${user.username.charAt(0).toUpperCase()}</span>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="create.html" class="nav-link">New Post</a>
+            <a href="#" id="logoutLink" class="nav-link">Logout</a>
+          </div>
+        `;
+        document.getElementById('logoutLink').onclick = logout;
+        loadCategories();
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    // Submit handler
+    document.getElementById('postForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const postId = document.getElementById('postId').value;
+      const title = document.getElementById('title').value.trim();
+      const content = simplemde.value().trim();
+      const imageFile = document.getElementById('postImage').files[0];
+      const categoryId = document.getElementById('category').value || null;
+
+      const formData = new FormData();
+      formData.append('id', postId);
+      formData.append('title', title);
+      formData.append('content', content);
+      if (imageFile) formData.append('image', imageFile);
+      if (categoryId !== null) formData.append('category_id', categoryId);
+
+      const res = await fetch('/blog-app/backend/api/posts/edit.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: formData
+      });
+      const data = await res.json();
+
+      if (data.error) {
+        alert(data.error);
+      } else {
+        window.location.href = `view.html?id=${postId}`;
+      }
+    });
+  </script>
+</body>
+</html>
