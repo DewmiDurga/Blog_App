@@ -1,7 +1,3 @@
-Here is a **professional, elegant, and comprehensive `README.md`** tailored for your royal-themed blog platform — designed to impress contributors, users, and future maintainers.
-
----
-
 ### ✅ `README.md`
 
 ```markdown
@@ -230,4 +226,4 @@ Would you like me to generate:
 - A `SECURITY.md` with vulnerability reporting guidelines
 - GitHub Actions workflow for auto-deploy to InfinityFree?
 
-Let me know — I’ll help make your repo truly regal. 👑
+
